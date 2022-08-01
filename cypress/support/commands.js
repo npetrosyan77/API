@@ -82,7 +82,7 @@ Cypress.Commands.add('getUsersList_', () => {
 })
 
 
-Cypress.Commands.add('updateUser', (arg, arg1, arg2, arg3)=>{
+Cypress.Commands.add('updateUser', (arg1, arg2, arg3)=>{
     cy.request({
         method: "PUT",
         url: `https://gorest.co.in/public/v2/users/${arg1}`,
