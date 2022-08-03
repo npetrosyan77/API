@@ -58,28 +58,4 @@ describe('Delete resquest', () => {
         })
     })
 
-
-    it.only('Checking user info', () => {
-        cy.createUser(creds1)
-        cy.get('@userCreate').its('body').then((users) => {
-            expect(users.status).to.eq('active')
-            expect(users).to.have.property('id')
-            let userID = users.id
-            cy.log(userID)
-            cy.request(
-                {
-                    method: 'GET',
-                    url: `https://gorest.co.in/public/v2/users/${userID}`,
-                    headers: {
-                        Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
-                    },
-                    failOnStatusCode: false
-                }).then((foundUser)=>{
-                expect(foundUser.body).to.have.property('name', creds1.name)
-                expect(foundUser.body).to.have.property('gender', creds1.gender)
-                expect(foundUser.body).to.have.property('status', creds1.status)
-                expect(foundUser.body).to.have.property('email', creds1.email)
-            })
-            })
-        })
-    })
+})
