@@ -69,7 +69,6 @@ Cypress.Commands.add('getUsersList', () => {
 })
 
 
-
 Cypress.Commands.add('getUsersList_', () => {
     cy.request({
         method: 'GET',

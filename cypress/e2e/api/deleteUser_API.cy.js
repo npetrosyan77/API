@@ -29,7 +29,6 @@ describe('Delete user via API ', () => {
         })
     })
 
-
     it('Deleting user via API (GraphQL cURL)', () => {
         cy.getUsersList()
         cy.get('@usersCount').its('totalCount')

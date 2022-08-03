@@ -20,6 +20,7 @@ export const checkBodyData = class responseBodyData {
     }
 }
 
+
 export const checkUpdatedData = class updatedData {
     static userData() {
         return {

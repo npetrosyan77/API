@@ -1,7 +1,6 @@
 import {requestBody} from "../../support/commands"
 import {checkUpdatedData} from "../../pages/users"
 
-
 var creds = requestBody();
 var creds1 = requestBody();
 

@@ -13,7 +13,6 @@ describe('Create a user via API', () => {
         })
     })
 
-
     it('Create a user with the same credentials twice', () => {
         cy.createUser(creds1).its('body')
             .then((response) => {

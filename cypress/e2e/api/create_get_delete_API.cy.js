@@ -20,4 +20,4 @@ describe('Create, get and delete a user via API', () => {
                 })
             })
     })
-})
+});
