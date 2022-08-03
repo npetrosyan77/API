@@ -3,7 +3,6 @@ import {requestBody} from "../../support/commands"
 var creds = requestBody();
 var creds1 = requestBody();
 
-
 describe('Create a user via API', () => {
 
     it('Create a user with REST cURL', () => {

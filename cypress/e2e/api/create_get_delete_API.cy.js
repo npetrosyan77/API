@@ -16,7 +16,6 @@ describe('Create, get and delete a user via API', () => {
                 cy.getUser(userId).its('body').then((notFound) => {
                     expect(notFound).to.have.property("message", "Resource not found")
                     cy.getUser(userId).its('status').should('be.eq', 404)
-                    //Isn't it possible to check both property and status of call at once?
                 })
             })
     })
