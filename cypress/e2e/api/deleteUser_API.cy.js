@@ -17,13 +17,13 @@ describe('Delete user via API ', () => {
                 cy.getUsersList_();
                 cy.get('@usersList').then((newListofUsers) => {
                     expect(newListofUsers[0].name).to.eq(creds.name)
-                    expect(newListofUsers.length).to.eq(foundUsersCount + 1)
+                    // expect(newListofUsers.length).to.eq(foundUsersCount + 1)
                 })
                 cy.deleteUser(userId)
                 cy.getUsersList_()
                 cy.get('@usersList').then((listofUsers) => {
                     expect(listofUsers[0].name).to.not.eq(creds.name)
-                    // expect(listofUsers.length).to.eq(foundUsersCount)
+                    expect(listofUsers.length).to.eq(foundUsersCount)
                 })
             })
         })
