@@ -6,5 +6,6 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     failOnStatusCode: false,
+    projectId: "by7f3s"
   },
 });
