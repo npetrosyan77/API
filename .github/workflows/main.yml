@@ -25,6 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: cypress-io/github-action@v4.1.0
+      - run: npx cypress run --record --key 659bdec0-7cec-459d-bb41-a3f2176d2664
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
