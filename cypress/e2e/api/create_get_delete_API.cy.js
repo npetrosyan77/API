@@ -6,7 +6,7 @@ var creds = requestBody();
 describe('Create, get and delete a user via API', () => {
 
     it('Create, get and delete a user using REST cURL*', () => {
-        cy.createUser(creds1)
+        cy.createUser(creds)
         cy.get('@userCreate').its('body')
             .then((response) => {
                 var userId = response.id
