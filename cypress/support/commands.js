@@ -1,4 +1,6 @@
 import faker from "faker"
+import moment from'moment';
+
 
 export const requestBody = () => {
     return {
@@ -9,18 +11,28 @@ export const requestBody = () => {
     }
 }
 
-export const postBodyCont = () => {
+export const postBody = () => {
     return {
         title: faker.random.word(1),
         body: faker.random.words(10),
     }
 }
 
-export const commentContent =()=>{
+export const commentBody = () => {
+    return {
+        name: faker.name.firstName() + ' ' + faker.name.lastName(),
+        email: faker.internet.exampleEmail(),
+        body: faker.random.words(10)
+    }
+}
+
+
+export const todoBody = () => {
     return{
-        body: faker.random.words(10),
         title: faker.random.words(5),
-        post: faker.random.words(5)
+        due_on: moment().format('YYYY-DD-MM') + 'T00:00:00.000+05:30',
+        // due_on: Date.now() + 'T00:00:00.000+05:30',
+        status: 'pending'
     }
 }
 
@@ -74,7 +86,8 @@ Cypress.Commands.add('getUsersList', () => {
     cy.request({
         method: 'POST',
         url: 'https://gorest.co.in/public/v2/graphql',
-        body: {"query": "query{users {pageInfo {endCursor startCursor hasNextPage hasPreviousPage} totalCount nodes {id name email gender status}}}"},
+        body: {"query": "query{users {pageInfo {endCursor startCursor hasNextPage hasPreviousPage} " +
+                "totalCount nodes {id name email gender status}}}"},
         headers: {
             Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
         },
@@ -114,13 +127,13 @@ Cypress.Commands.add('updateUser', (arg1, arg2, arg3) => {
 })
 
 
-Cypress.Commands.add('createAPost', (arg1, arg2) => {
+Cypress.Commands.add('createPost', (user_id, post) => {
     cy.request({
             method: 'POST',
-            url: `https://gorest.co.in/public/v2/users/${arg1}/posts`,
+            url: `https://gorest.co.in/public/v2/users/${user_id}/posts`,
             body: {
-                title: arg2.title,
-                body: arg2.body
+                title: post.title,
+                body: post.body
             },
             headers: {
                 Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
@@ -129,10 +142,10 @@ Cypress.Commands.add('createAPost', (arg1, arg2) => {
     )
 })
 
-Cypress.Commands.add('getPosts',(arg)=>{
+Cypress.Commands.add('getPosts', (user_id) => {
     cy.request({
         method: 'GET',
-        url: `https://gorest.co.in/public/v2/users/${arg}/posts`,
+        url: `https://gorest.co.in/public/v2/users/${user_id}/posts`,
         headers: {
             Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
         }
@@ -140,21 +153,57 @@ Cypress.Commands.add('getPosts',(arg)=>{
 })
 
 
-Cypress.Commands.add('addComment', (arg1, arg2, arg3, arg4)=>{
+Cypress.Commands.add('addComment', (post_id, comment) => {
     cy.request({
         method: 'POST',
-        url: `https://gorest.co.in/public/v2/posts/${arg1}/comments`,
-        body:{
-            post_id: arg2,
-            name: arg3.name,
-            email: arg3.email,
-            body: arg4.body,
-            title: arg4.title,
-            post: arg4.post
+        url: `https://gorest.co.in/public/v2/posts/${post_id}/comments`,
+        body: {
+            post_id: post_id,
+            name: comment.name,
+            email: comment.email,
+            body: comment.body
         },
-        headers:{
+        headers: {
             Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
         },
-        failOnStatusCode: false
     }).as('newComment')
+})
+
+
+Cypress.Commands.add('getCommentsList', (post_id) => {
+    cy.request({
+        method: 'GET',
+        url: `https://gorest.co.in/public/v2/posts/${post_id}/comments`,
+        headers: {
+            Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
+        }
+    }).its('body').as('commentsList')
+})
+
+
+Cypress.Commands.add('createTodo', (user_id, todo)=>{
+    cy.request({
+        method: 'POST',
+        url: `https://gorest.co.in/public/v2/users/${user_id}/todos`,
+        body:{
+            user_id: user_id,
+            title: todo.title,
+            due_on: todo.due_on,
+            status: todo.status
+        },
+        headers: {
+            Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
+        }
+    }).its('body').as('newTodo')
+})
+
+
+Cypress.Commands.add('getTodoList', (user_id)=>{
+    cy.request({
+        method: 'GET',
+        url: `https://gorest.co.in/public/v2/users/${user_id}/todos`,
+        headers: {
+            Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
+        }
+    }).its('body').as('todosList')
 })
