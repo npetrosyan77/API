@@ -1,6 +1,7 @@
 import faker from "faker"
 import moment from'moment';
 
+let date = new Date();
 
 export const requestBody = () => {
     return {
@@ -30,12 +31,12 @@ export const commentBody = () => {
 export const todoBody = () => {
     return{
         title: faker.random.words(5),
-        due_on: moment().format('YYYY-DD-MM') + 'T00:00:00.000+05:30',
+        // due_on: moment().format('YYYY-DD-MM') + 'T00:00:00.000+05:30',
+        due_on: moment().format(),
         // due_on: Date.now() + 'T00:00:00.000+05:30',
         status: 'pending'
     }
 }
-
 
 Cypress.Commands.add('createUser', (creds) => {
     cy.request({
@@ -200,7 +201,7 @@ Cypress.Commands.add('createTodo', (user_id, todo)=>{
 
 Cypress.Commands.add('getTodoList', (user_id)=>{
     cy.request({
-        method: 'GET',
+        method: 'GE',
         url: `https://gorest.co.in/public/v2/users/${user_id}/todos`,
         headers: {
             Authorization: 'Bearer 031748f0f31aefc94888aba83d3ed3d68f71073e13cc528f8ae55757250342e5'
